@@ -1,6 +1,6 @@
 FROM eclipse-temurin:11-alpine
 
-RUN apk add --no-cache curl tar bash procps
+RUN apk add --no-cache curl tar bash procps git
 
 # Build Maven
 ARG MAVEN_VERSION=3.8.3
@@ -25,8 +25,7 @@ ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
 
 # Build my project
 WORKDIR /app
-COPY pom.xml /app
-COPY src /app/src
+RUN git clone https://github.com/Sugoii-Team/fptublog-backend.git /app
 RUN mvn -f pom.xml clean install
 
 EXPOSE 8080
